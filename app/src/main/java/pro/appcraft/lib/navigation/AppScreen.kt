@@ -1,16 +1,5 @@
 package pro.appcraft.lib.navigation
 
-import android.content.Context
-import android.content.Intent
-import androidx.fragment.app.Fragment
-import ru.terrakok.cicerone.Screen
+import ru.terrakok.cicerone.android.support.SupportAppScreen
 
-abstract class AppScreen : Screen() {
-    open fun getFragment(): Fragment? {
-        return null
-    }
-
-    open fun getActivityIntent(context: Context): Intent? {
-        return null
-    }
-}
+typealias AppScreen = SupportAppScreen

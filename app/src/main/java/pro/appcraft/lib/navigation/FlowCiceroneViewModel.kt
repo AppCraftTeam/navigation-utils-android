@@ -7,10 +7,7 @@ class FlowCiceroneViewModel : ViewModel() {
     private var flowCicerone: Cicerone<FlowRouter>? = null
 
     fun getFlowCicerone(appRouter: AppRouter): Cicerone<FlowRouter> {
-        if (flowCicerone == null) {
-            flowCicerone = Cicerone.create(FlowRouter(appRouter))
-        }
-
-        return flowCicerone!!
+        return flowCicerone
+            ?: Cicerone.create(FlowRouter(appRouter)).also { flowCicerone = it }
     }
 }
