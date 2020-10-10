@@ -8,4 +8,7 @@ import ru.terrakok.cicerone.commands.Command
  */
 class ForwardTo(val screen: Screen?) : Command
 
-class ToTop(val screen: Screen) : Command
+/*
+ * Opens new flow on top of current with transparent background
+ */
+class ToTop(val flow: Screen) : Command
