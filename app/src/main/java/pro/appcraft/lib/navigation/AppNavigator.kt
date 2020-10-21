@@ -4,16 +4,16 @@ import android.os.Handler
 import android.os.Looper
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import ru.terrakok.cicerone.android.support.SupportAppNavigator
-import ru.terrakok.cicerone.android.support.SupportAppScreen
-import ru.terrakok.cicerone.commands.*
+import com.github.terrakok.cicerone.*
+import com.github.terrakok.cicerone.androidx.*
+import com.github.terrakok.cicerone.androidx.AppNavigator
 
 @Suppress("UNUSED_PARAMETER")
 open class AppNavigator(
     activity: FragmentActivity,
     fragmentManager: FragmentManager,
     containerId: Int
-) : SupportAppNavigator(activity, fragmentManager, containerId) {
+) : AppNavigator(activity, containerId, fragmentManager) {
     private val handler = Handler(Looper.getMainLooper())
 
     override fun applyCommands(vararg commands: Command) {
@@ -29,47 +29,34 @@ open class AppNavigator(
     override fun applyCommand(command: Command) {
         when (command) {
             is ForwardTo -> activityForwardTo(command)
-            is Forward -> activityForward(command)
-            is Replace -> activityReplace(command)
+            is Forward -> forward(command)
+            is Replace -> replace(command)
             is ToTop -> fragmentToTop(command)
             is BackTo -> backTo(command)
-            is Back -> fragmentBack()
+            is Back -> back()
         }
     }
 
     private fun fragmentToTop(command: ToTop) {
-        val screen = command.screen as AppScreen
-        val fragment = createFragment(screen)
-
-        val fragmentTransaction = fragmentManager.beginTransaction()
-
-        setupFragmentTransaction(
-            command,
-            fragmentManager.findFragmentById(containerId),
-            fragment,
-            fragmentTransaction
+        val screen = command.screen as FragmentScreen
+        commitNewFragmentScreen(
+            screen = screen,
+            type = TransactionInfo.Type.ADD,
+            addToBackStack = true
         )
-
-        fragmentTransaction
-            .add(containerId, fragment!!)
-            .addToBackStack(screen.screenKey)
-            .commit()
-        localStackCopy?.add(screen.screenKey)
     }
 
     private fun activityForwardTo(command: ForwardTo) {
-        val screen = command.screen as SupportAppScreen
-        val activityIntent = screen.getActivityIntent(activity)
-
-        if (activityIntent != null || !checkTopStackScreen(command)) {
-            activityForward(Forward(screen))
+        val screen = command.screen as AppScreen
+        if ((screen is ActivityScreen) || (!checkTopStackScreen(command))) {
+            forward(Forward(screen, true))
         }
     }
 
     private fun checkTopStackScreen(command: ForwardTo): Boolean {
         val key = command.screen?.screenKey
-        val index = localStackCopy?.indexOf(key) ?: -1
-        val size = localStackCopy?.size ?: 0
+        val index = localStackCopy.indexOfFirst { it.screenKey == key }
+        val size = localStackCopy.size
         return index != -1 && index == size - 1
     }
 }

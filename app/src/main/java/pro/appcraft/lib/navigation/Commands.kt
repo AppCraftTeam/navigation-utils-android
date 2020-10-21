@@ -1,7 +1,7 @@
 package pro.appcraft.lib.navigation
 
-import ru.terrakok.cicerone.Screen
-import ru.terrakok.cicerone.commands.Command
+import com.github.terrakok.cicerone.Command
+import com.github.terrakok.cicerone.Screen
 
 /**
  * Opens new screen if screen not exists on stack top
