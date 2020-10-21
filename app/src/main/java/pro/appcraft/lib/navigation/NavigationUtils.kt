@@ -7,7 +7,6 @@ import com.github.terrakok.cicerone.androidx.AppScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
-import kotlin.reflect.jvm.jvmName
 
 fun Navigator.setLaunchScreen(screen: AppScreen) {
     applyCommands(arrayOf(BackTo(null), Replace(screen)))
@@ -26,7 +25,7 @@ fun Navigator.setLaunchScreenChain(vararg screens: AppScreen) {
 
 fun KClass<out Fragment>.getFragmentScreen(vararg args: Pair<String, Any?>) =
     FragmentScreen(
-        screenKey = jvmName,
+        screenKey = java.name,
         createFragment = {
             this.createInstance().apply {
                 arguments = bundleOf(*args)
