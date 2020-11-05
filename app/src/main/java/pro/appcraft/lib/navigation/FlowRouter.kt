@@ -8,6 +8,10 @@ class FlowRouter(private val appRouter: AppRouter) : Router() {
 
     fun finishFlow() = appRouter.exit()
 
+    fun newRootFlow(flow: AppScreen) = appRouter.newRootScreen(flow)
+
+    fun replaceFlow(flow: AppScreen) = appRouter.replaceScreen(flow)
+
     fun forwardTo(flow: AppScreen) = appRouter.forwardTo(flow)
 
     fun toTop(flow: AppScreen) = appRouter.toTop(flow)

@@ -25,7 +25,7 @@ fun Navigator.setLaunchScreenChain(vararg screens: AppScreen) {
 
 fun KClass<out Fragment>.getFragmentScreen(vararg args: Pair<String, Any?>) =
     FragmentScreen(
-        screenKey = java.name,
+        key = java.name,
         createFragment = {
             this.createInstance().apply {
                 arguments = bundleOf(*args)

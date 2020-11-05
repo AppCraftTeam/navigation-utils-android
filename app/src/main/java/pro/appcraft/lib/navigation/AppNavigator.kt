@@ -8,7 +8,7 @@ import com.github.terrakok.cicerone.*
 import com.github.terrakok.cicerone.androidx.*
 import com.github.terrakok.cicerone.androidx.AppNavigator
 
-@Suppress("UNUSED_PARAMETER")
+@Suppress("unused")
 open class AppNavigator(
     activity: FragmentActivity,
     fragmentManager: FragmentManager,
