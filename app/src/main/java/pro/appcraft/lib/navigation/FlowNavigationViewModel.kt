@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 
-class FlowNavigationViewModel(private val appRouter: AppRouter) : ViewModel() {
+open class FlowNavigationViewModel(private val appRouter: AppRouter) : ViewModel() {
     private val flowCicerone: Cicerone<FlowRouter> by lazy {
         Cicerone.create(FlowRouter(appRouter))
     }
