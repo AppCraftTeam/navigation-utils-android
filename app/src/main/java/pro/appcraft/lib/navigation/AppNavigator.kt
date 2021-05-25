@@ -41,21 +41,20 @@ open class AppNavigator(
         val screen = command.screen as FragmentScreen
         commitNewFragmentScreen(
             screen = screen,
-            type = TransactionInfo.Type.ADD,
             addToBackStack = true
         )
     }
 
     private fun activityForwardTo(command: ForwardTo) {
-        val screen = command.screen as AppScreen
+        val screen = command.screen
         if ((screen is ActivityScreen) || (!checkTopStackScreen(command))) {
-            forward(Forward(screen, true))
+            forward(Forward(screen))
         }
     }
 
     private fun checkTopStackScreen(command: ForwardTo): Boolean {
-        val key = command.screen?.screenKey
-        val index = localStackCopy.indexOfFirst { it.screenKey == key }
+        val key = command.screen.screenKey
+        val index = localStackCopy.indexOfFirst { it == key }
         val size = localStackCopy.size
         return index != -1 && index == size - 1
     }

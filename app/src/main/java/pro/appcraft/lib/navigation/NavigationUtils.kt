@@ -3,21 +3,20 @@ package pro.appcraft.lib.navigation
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.*
-import com.github.terrakok.cicerone.androidx.AppScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
 
-fun Navigator.setLaunchScreen(screen: AppScreen) {
+fun Navigator.setLaunchScreen(screen: Screen) {
     applyCommands(arrayOf(BackTo(null), Replace(screen)))
 }
 
-fun Navigator.setLaunchScreenChain(vararg screens: AppScreen) {
+fun Navigator.setLaunchScreenChain(vararg screens: Screen) {
     val commands = mutableListOf<Command>()
     commands.add(BackTo(null))
     screens.forEachIndexed { index, screen ->
         commands.add(
-            if (index == 0) Replace(screen) else Forward(screen, true)
+            if (index == 0) Replace(screen) else Forward(screen)
         )
     }
     applyCommands(commands.toTypedArray())
